@@ -1,160 +1,195 @@
-
-const vowels = [
-  'a',
-  'e',
-  'i', // <----------------------- no doubles
-  'o',
-  'u', // <----------------------- no doubles
-  'y'  // <----------------------- no doubles
-];
-
-const singularVowels = {
-  i: 1,
-  u: 1,
-  y: 1
-};
-
-const specialVowels = {
-  y: {
-    front: false
+Object.defineProperty(Array.prototype, 'last', {
+  get: function () {
+    return this[this.length - 1];
   }
-};
+});
 
-const consonants = [
-  'b', 'c', 'd',
-  'f', 'g', 'h',
-  'j', 'k', 'l', 'm', 'n',
-  'p', 'r', 's', 't',
-  'v', 'w', 'x', 'z',
-
-  'ph', 'th', 'ch', 'sh', 'qu', 'ck', 'ng', 'gh', 'wh', 'ly'
-];
-
-const specialConsonants = {
-  ph: {
-    front: true,
-    back: true
-  },
-  th: {
-    front: true,
-    back: true
-  },
-  ch: {
-    front: true,
-    back: true
-  },
-  sh: {
-    front: true,
-    back: true
-  },
-  qu: {
-    front: true,
-    back: false
-  },
-  ck: {
-    front: false,
-    back: true,
-  },
-  ng: {
-    front: false,
-    back: true
-  },
-  gh: {
-    front: true,
-    back: true
-  },
-  wh: {
-    front: true,
-    back: false
-  },
-  ly: {
-    front: true,
-    back: true
+Object.defineProperty(Array.prototype, 'secondlast', {
+  get: function () {
+    return this[this.length - 2];
   }
+});
+
+module.exports.generate = (length = 5) => {
+  let word = '';
+  let previous = [];
+  let type;
+
+  if (typeof length == 'number') {
+    for (let i = 0; i < length; i++) {
+      type = functions.next(previous);
+      previous.push(functions[type](previous, length - word.length));
+      word += previous.last.part;
+      if (word.length >= length) {
+        return word;
+      }
+    }
+  }
+
+  if (Array.isArray(length)) {
+    length.forEach(length => {
+      word += module.exports.generate(length);
+    });
+    return word;
+  }
+
 };
 
-const syllableTypes = ['vc', 'cvc', 'cv', 'vvc'];
 
-const random = (n) => {
-  return Math.round(Math.random() * n);
+const data = module.exports.data = {
+
+  vowels: [
+    'a',
+    'e',
+    'i',
+    'o',
+    'u'
+  ],
+
+  consonants: [
+    'b', 'c', 'd',
+    'f', 'g', 'h',
+    'j', 'k', 'l', 'm', 'n',
+    'p', 'r', 's', 't',
+    'v', 'w', /*'x',*/ 'y', 'z',
+
+    'ph', 'th', 'ch', 'sh', 'qu', 'ck', 'ng', 'gh', 'wh', 'ly'
+  ],
+
+  specials: {
+    consonants: {
+      h: {
+        front: true,
+        back: false
+      },
+      j: {
+        front: true,
+        back: false
+      },
+      ph: {
+        front: true,
+        back: true
+      },
+      th: {
+        front: true,
+        back: true
+      },
+      ch: {
+        front: true,
+        back: true
+      },
+      sh: {
+        front: true,
+        back: true
+      },
+      qu: {
+        front: true,
+        back: false
+      },
+      ck: {
+        front: false,
+        back: true,
+      },
+      ng: {
+        front: false,
+        back: true
+      },
+      gh: {
+        front: true,
+        back: true
+      },
+      wh: {
+        front: true,
+        back: false
+      },
+      ly: {
+        front: true,
+        back: true
+      }
+    }
+  },
+
+  chances: {
+    firstLetter: {
+      consonant: 3,
+      vowel: 1
+    }
+  }
+
 };
 
-const randomVowel = (word, seq, last) => {
-  let vowel;
-  while (!vowel) {
-    vowel = vowels[random(vowels.length - 1)];
 
-    if (word.length > 0) {
-      if (vowel == word[word.length - 1]) {
-        if (singularVowels[word[word.length - 1]]) {
-          vowel = undefined;
+const functions = module.exports.functions = {
+
+  random: (n) => {
+    return Math.round(Math.random() * n);
+  },
+
+  // oneIn: (n) => {
+  //   return Math.round(Math.random() * (n)) == 1;
+  // },
+
+  choice: (chances) => {
+    let array = [];
+    Object.keys(chances).forEach(choice => {
+      while (array.push(choice) < chances[choice]) {}
+    });
+    return array[functions.random(array.length - 1)];
+  },
+
+  vowel: (previous, remaining) => {
+    let vowel;
+    while (!vowel) {
+      vowel = data.vowels[functions.random(data.vowels.length - 1)];
+
+      if (previous.last && previous.last.part == 'qu' && vowel == 'u') {
+        vowel = undefined;
+        continue;
+      }
+    }
+
+    return {
+      part: vowel,
+      type: 'vowel'
+    };
+  },
+
+  consonant: (previous, remaining) => {
+    let consonant;
+    let double = false;
+    while (!consonant) {
+      consonant = data.consonants[functions.random(data.consonants.length - 1)];
+
+      if (consonant.length > remaining) {
+        consonant = undefined;
+        continue;
+      }
+
+      if (data.specials.consonants[consonant]) {
+        if (previous.length == 0 && !data.specials.consonants[consonant].front) {
+          consonant = undefined;
+          continue;
+        }
+        if (remaining == 2 && !data.specials.consonants[consonant].back) {
+          consonant = undefined;
           continue;
         }
       }
     }
 
-    if (!specialVowels[vowel]) break;
+    return {
+      part: consonant,
+      type: 'consonant',
+      double: double
+    };
+  },
 
-    if (word.length == 0 && !specialVowels[vowel].front) {
-      vowel = undefined;
-      continue;
+  next: (previous) => {
+    if (previous.length == 0) {
+      return functions.choice(data.chances.firstLetter);
     }
+
+    if (previous.last.type == 'vowel') return 'consonant';
+    return 'vowel';
   }
-  return vowel;
-};
-
-const randomConsonant = (word, seq, last) => {
-  let consonant;
-  while (!consonant) {
-    consonant = consonants[random(consonants.length - 1)];
-    if (!specialConsonants[consonant]) break;
-
-    if (word.length == 0 && !specialConsonants[consonant].front) {
-      consonant = undefined;
-      continue;
-    }
-
-    if (last && seq == 0 && !specialConsonants[consonant].back) {
-      consonant = undefined;
-      continue;
-    }
-  }
-  return consonant;
-
-};
-
-const randomSyllableType = () => {
-  return syllableTypes[random(syllableTypes.length - 1)];
-};
-
-module.exports.generate = (syllables = 1) => {
-  let word = '';
-  let lastSyllable;
-
-  for (let i = 0; i < syllables; i++) {
-    lastSyllable = i == syllables - 1;
-    switch(randomSyllableType()) {
-      case 'vc':
-        word += randomVowel(word, 1, lastSyllable);
-        word += randomConsonant(word, 0, lastSyllable);
-        break;
-      case 'cvc':
-        word += randomConsonant(word, 2, lastSyllable);
-        word += randomVowel(word, 1, lastSyllable);
-        word += randomConsonant(word, 0, lastSyllable);
-        break;
-      case 'cv':
-        word += randomVowel(word, 1, lastSyllable);
-        word += randomConsonant(word, 0, lastSyllable);
-        break;
-      case 'vvc':
-        word += randomVowel(word, 2, lastSyllable);
-        word += randomVowel(word, 1, lastSyllable);
-        word += randomConsonant(word, 0, lastSyllable);
-        break;
-
-    }
-  }
-
-  return word;
 };
