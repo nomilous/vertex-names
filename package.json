@@ -4,7 +4,7 @@
   "engines": {
     "node": "^6.0.0"
   },
-  "description": "Random name/word generator.",
+  "description": "Random word (ish) generator.",
   "main": "index.js",
   "scripts": {
     "test": "mocha test",

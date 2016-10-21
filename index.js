@@ -10,14 +10,14 @@ Object.defineProperty(Array.prototype, 'secondlast', {
   }
 });
 
-module.exports.generate = (length = 5) => {
+module.exports.createWord = (length = 5) => {
   let word = '';
   let previous = [];
   let type;
 
   if (typeof length == 'number') {
     for (let i = 0; i < length; i++) {
-      type = functions.next(previous);
+      type = length == 1 ? 'vowel' : functions.next(previous);
       previous.push(functions[type](previous, length - word.length));
       word += previous.last.part;
       if (word.length >= length) {
@@ -26,9 +26,10 @@ module.exports.generate = (length = 5) => {
     }
   }
 
+  console.log();
   if (Array.isArray(length)) {
     length.forEach(length => {
-      word += module.exports.generate(length);
+      word += module.exports.createWord(length);
     });
     return word;
   }

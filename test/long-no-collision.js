@@ -2,7 +2,7 @@ const {basename} = require('path');
 const filename = basename(__filename);
 const {format} = require('util');
 
-const {generate} = require('../');
+const {createWord} = require('../');
 
 describe(filename, function () {
 
@@ -15,17 +15,21 @@ describe(filename, function () {
 
     let words = {};
 
-    // console.log();
-
     for (let i = 0; i < count; i++) {
-      let word = generate(length);
-      // console.log(word);
+      let word = createWord(length);
       if (words[word]) {
         throw new Error(format('Collided at %d generated word(s) of %d length', i, length))
       }
       words[word] = 1;
     }
 
+    done();
+
+  });
+
+  it('one word', done => {
+
+    console.log(createWord([1,3,3,4]));
     done();
 
   });
