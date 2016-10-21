@@ -1,0 +1,28 @@
+{
+  "name": "vertex-names",
+  "version": "1.0.0",
+  "engines": {
+    "node": "^6.0.0"
+  },
+  "description": "Random name/word generator.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test",
+    "cover": "istanbul cover _mocha -- test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nomilous/vertex-names.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nomilous/vertex-names/issues"
+  },
+  "homepage": "https://github.com/nomilous/vertex-names#readme",
+  "devDependencies": {
+    "coveralls": "^2.11.14",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.1.2"
+  }
+}
