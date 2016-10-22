@@ -6,7 +6,7 @@ const {createWord} = require('../');
 
 describe(filename, function () {
 
-  this.timeout(10 * 1000);
+  this.timeout(20 * 1000);
 
   let count = 100000;
   let length = 13;
