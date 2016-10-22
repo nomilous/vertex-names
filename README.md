@@ -39,5 +39,11 @@ createWord(7);
 // 'uteroyo'
 // 'meghiba'
 
+// to release cache/memory (see data.json, not that small)
+createWord.finished();
+
+// create word and release
+createWord(9, {finish: true});
+
 ```
 
