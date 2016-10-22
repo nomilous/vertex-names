@@ -6,7 +6,7 @@
 
 # vertex-names
 
-Random word (ish) generator.
+Random (realistic-language-ish) word generator.
 
 ```javascript
 const {createWord} = require('vertex-names');
@@ -21,29 +21,25 @@ createWord(2); // 'hi'
                //
 
 
-createWord(7);
-// 'yilyovi'
-// 'bowecha'
-// 'colemiw' // (still got some work to do)
-// 'awhuqui'
-// 'quoshim'
-// 'chingok'
-// 'hufoniy'
-// 'jevange'
-// 'lyushoj'
-// 'wajelyo'
-// 'dalewhu'
-// 'vowesip'
-// 'ecejegi'
-// 'emewoli'
-// 'uteroyo'
-// 'meghiba'
 
-// to release cache/memory (see data.json, not that small)
+> for (i = 0; i < 10; i++){ console.log( createWord(11) ); }
+redontriost
+ansoizustru
+soliguwluss
+oiseprusene
+nondocichid
+hydrorasaty
+erpitoryelo
+nettaluspra
+oovelamopef
+inizygemord
+
+
+
+// optionally release cache/memory when done (see data.json, not that small)
 createWord.finished();
 
 // create word and release
-createWord(9, {finish: true});
-
+createWord(11, {finish: true});
 ```
 

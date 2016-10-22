@@ -1,10 +1,10 @@
 {
   "name": "vertex-names",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "engines": {
     "node": "^6.0.0"
   },
-  "description": "Random word (ish) generator.",
+  "description": "Random (realistic-language-ish) word generator.",
   "main": "index.js",
   "scripts": {
     "test": "mocha test",
@@ -24,5 +24,12 @@
     "coveralls": "^2.11.14",
     "istanbul": "^0.4.5",
     "mocha": "^3.1.2"
-  }
+  },
+  "keywords": [
+    "word",
+    "generater",
+    "random",
+    "language",
+    "natural"
+  ]
 }
