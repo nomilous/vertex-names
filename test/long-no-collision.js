@@ -27,11 +27,49 @@ describe(filename, function () {
 
   });
 
-  it('one word', done => {
+  xit('one word', done => {
 
-    console.log(createWord([1,3,3,4]));
+    console.log('\nsingle', createWord(7));
+    console.log('milti', createWord([4,3,2,1]));
     done();
 
   });
+
+  xit('q', done => {
+
+    for (let i = 0; i < 10000; i++) {
+      let word = createWord(7);
+      if (word.indexOf('q') >= 0) {
+        console.log(word);
+      }
+    }
+    done();
+
+  });
+
+  it('sentance', done => {
+
+    console.log();
+
+    for (let i = 0; i < 25; i++) {
+      let length = Math.round(Math.random() * 7) + 1;
+      let word = createWord(length);
+      if (i == 0) {
+        let letter = word[0].toUpperCase();
+        process.stdout.write(letter);
+        process.stdout.write(word.substring(1));
+        // word[0] = word[0].toUpperCase();
+      } else {
+        process.stdout.write(word);
+      }
+      if (i == 24) process.stdout.write('.');
+      else process.stdout.write(' ');
+    }
+
+    console.log();
+    done();
+
+  });
+
 
 });
