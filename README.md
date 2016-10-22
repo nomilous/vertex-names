@@ -11,10 +11,33 @@ Random word (ish) generator.
 ```javascript
 const {createWord} = require('vertex-names');
 
-// word
-createWord(7); // 'soghimo'
+createWord(2); // 'hi'
+               //         (that was literally the first word)
+               //               i have seen it often:
+               //          something "lives"  in the random
+               //            and it has a sense of humour
+               //                its second word was
+               //                      'do'
+               //
 
-// word of words
-createWord([2,4,4]); // 'atmaphsupi'
+
+createWord(7);
+// 'yilyovi'
+// 'bowecha'
+// 'colemiw' // (still got some work to do)
+// 'awhuqui'
+// 'quoshim'
+// 'chingok'
+// 'hufoniy'
+// 'jevange'
+// 'lyushoj'
+// 'wajelyo'
+// 'dalewhu'
+// 'vowesip'
+// 'ecejegi'
+// 'emewoli'
+// 'uteroyo'
+// 'meghiba'
+
 ```
 
