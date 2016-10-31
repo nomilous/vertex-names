@@ -40,6 +40,6 @@ inizygemord
 createWord.finished();
 
 // create word and release
-createWord(11, {finish: true});
+createWord(11, {finished: true});
 ```
 
